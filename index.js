@@ -3,7 +3,7 @@ let editButton = document.querySelector('.button_edit');
 let popup = document.querySelector('.popup');
 // open popup by click
 editButton.addEventListener('click', function() {
-  popup.classList.add('popup__opened');
+  popup.classList.add('popup_opened');
 });
 // find all other elements
 let closeButton = document.querySelector('.button_close');
@@ -18,7 +18,7 @@ nameInput.value = profileName.textContent;
 jobInput.value = profileJob.textContent;
 // this function closes popup by removing class
 function closePopup() {
-  popup.classList.remove('popup__opened');
+  popup.classList.remove('popup_opened');
 };
 // close popup by click on close button
 closeButton.addEventListener('click', function () {
