@@ -5,6 +5,14 @@
 
 @media screen and (min-width: 650px ) {
   .container {
+    max-width: 90%;
+  }
+}
+
+@media screen and (min-width: 900px ) {
+  .container {
     max-width: 880px;
   }
 }
+
+
