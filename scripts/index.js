@@ -13,6 +13,8 @@ const profileJob = document.querySelector('.profile__info');
 const formProfile = document.querySelector('.form_type_profile');
 const formCards = document.querySelector('.form_type_cards');
 const popupPlace = document.querySelector('.popup_type_place');
+const popupPlaceImg = popupPlace.querySelector('.popup__image');
+const popupPlaceName = popupPlace.querySelector('.popup__caption');
 const places = document.querySelector('.places');
 // this function opens popup
 function openPopups(currentPopup) {
@@ -25,10 +27,14 @@ function closePopup(currentPopup) {
 // this function submits cards form
 function submitCardsForm (evt) {
   evt.preventDefault();
-  let newCard = {
+  const newCard = {
     name: cardNameInput.value,
     link: cardLinkInput.value
   };
+  // validation check
+  // if (newCard.name && newCard.link) {
+  // places.prepend(createCard(newCard));
+  // }
   places.prepend(createCard(newCard));
   closePopup(popupCards);
   formCards.reset();
@@ -59,15 +65,10 @@ function createCard (element) {
     evt.stopPropagation();
   });
   // open place popup
-  cardElement.querySelector('.place').addEventListener('click', function (element) {
-    const currentPlace = element.currentTarget;
-    const currentPlaceImg = currentPlace.querySelector('.place__image');
-    const currentPlaceName = currentPlace.querySelector('.place__name');
-    const popupPlaceImg = popupPlace.querySelector('.popup__image');
-    const popupPlaceName = popupPlace.querySelector('.popup__caption');
-    popupPlaceImg.src = currentPlaceImg.src;
-    popupPlaceImg.alt = currentPlaceName.textContent;
-    popupPlaceName.textContent = currentPlaceName.textContent;
+  cardElement.querySelector('.place').addEventListener('click', function () {
+    popupPlaceImg.src = element.link;
+    popupPlaceImg.alt = element.name;
+    popupPlaceName.textContent = element.name;
     openPopups(popupPlace);
   });
 
