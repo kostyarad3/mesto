@@ -3,29 +3,34 @@ const buttonEdit = document.querySelector('.button_type_edit');
 const buttonAdd = document.querySelector('.button_type_add');
 const buttonsClose = document.querySelectorAll('.button_type_close');
 const popupProfile = document.querySelector('.popup_type_profile');
+const buttonSaveProfile = popupProfile.querySelector('.form__submit');
 const nameInput = popupProfile.querySelector('#profile-name');
 const jobInput = popupProfile.querySelector('#profile-job');
 const popupCards = document.querySelector('.popup_type_cards');
+const buttonAddCard = popupCards.querySelector('.form__submit')
 const cardNameInput = popupCards.querySelector('#card-name');
 const cardLinkInput = popupCards.querySelector('#card-link');
 const profileName = document.querySelector('.profile__name');
 const profileJob = document.querySelector('.profile__info');
 const formProfile = document.querySelector('.form_type_profile');
 const formCards = document.querySelector('.form_type_cards');
+const cardTemplate = document.querySelector('#card-template').content;
 const popupPlace = document.querySelector('.popup_type_place');
 const popupPlaceImg = popupPlace.querySelector('.popup__image');
 const popupPlaceName = popupPlace.querySelector('.popup__caption');
 const places = document.querySelector('.places');
 const popups = document.querySelectorAll('.popup');
 const inputs = Array.from(document.querySelectorAll('.form__input'));
+const inputsProfile = Array.from(popupProfile.querySelectorAll('.form__input'));
 // this function opens popup
-function openPopups(currentPopup) {
-  currentPopup.classList.toggle('popup_opened');
+function openPopup(currentPopup) {
+  currentPopup.classList.add('popup_opened');
+  document.addEventListener('keydown', closePopupByEsc);
 };
 // this function closes popup
 function closePopup(currentPopup) {
   currentPopup.classList.remove('popup_opened');
-  document.removeEventListener('keydown', closePopupByEsc)
+  document.removeEventListener('keydown', closePopupByEsc);
 };
 // this function submits cards form
 function submitCardsForm (evt) {
@@ -47,7 +52,6 @@ function submitProfileForm (evt) {
 }
 // this function creates card
 function createCard (element) {
-  const cardTemplate = document.querySelector('#card-template').content;
   const cardElement = cardTemplate.cloneNode(true);
   const cardElementImg = cardElement.querySelector('.place__image');
   cardElementImg.src = element.link;
@@ -68,8 +72,7 @@ function createCard (element) {
     popupPlaceImg.src = element.link;
     popupPlaceImg.alt = element.name;
     popupPlaceName.textContent = element.name;
-    openPopups(popupPlace);
-    handlePopupClosing();
+    openPopup(popupPlace);
   });
 
   return cardElement;
@@ -78,43 +81,35 @@ function createCard (element) {
 function closePopupByEsc(evt) {
   if(evt.key === 'Escape'){
     popups.forEach(popup => {
-      console.log(1)
-      closePopup(popup)
+      closePopup(popup);
     });
   };
 };
 // handle popup closing by overlay click and esc press
-function handlePopupClosing () {
-  popups.forEach(popup => {
-    // если событие 'click', то при клике на попапе и
-    // отпускании клавиши вне его обработчик сработает,
-    // что неудобно при удаленни данных с поля ввода
-    popup.addEventListener('mousedown', function(evt) {
-      if (evt.target === popup) {
-        closePopup(evt.currentTarget.closest('.popup'));
-      };
-    });
-    document.addEventListener('keydown', closePopupByEsc)
+popups.forEach(popup => {
+  document.addEventListener('mousedown', function (evt) {
+    if (evt.target === popup) {
+      closePopup(popup);
+    };
   });
-};
+});
 // open profile popup
 buttonEdit.addEventListener('click', function() {
   nameInput.value = profileName.textContent;
   jobInput.value = profileJob.textContent;
-  openPopups(popupProfile);
-  const buttonSaveProfile = popupProfile.querySelector('.form__submit');
+  openPopup(popupProfile);
   buttonSaveProfile.classList.remove('form__submit_type_inactive');
   buttonSaveProfile.removeAttribute('disabled');
-  // to remove errors while opening
-  inputs.forEach(input => {
-    handleInputValidity (input, elementsForValidation)
+  // to remove errors while repetated opening
+  inputsProfile.forEach(input => {
+    handleInputValidity (input, elementsForValidation);
   });
-  handlePopupClosing();
 });
 // open cards popup
 buttonAdd.addEventListener('click', function() {
-   openPopups(popupCards);
-   handlePopupClosing();
+   openPopup(popupCards);
+   buttonAddCard.classList.add('form__submit_type_inactive');
+   buttonAddCard.setAttribute('disabled', '');
 });
 // close popup
 buttonsClose.forEach(button => {
@@ -130,4 +125,3 @@ formProfile.addEventListener('submit', submitProfileForm);
 initialCards.forEach (function (card) {
   places.append(createCard(card));
 });
-
