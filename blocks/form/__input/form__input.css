@@ -1,8 +1,7 @@
-.form__item {
+.form__input {
   display: block;
   box-sizing: border-box;
   padding: 9px 0;
-  margin-bottom: 21px;
   border: none;
   border-bottom: 1px solid rgba(0, 0, 0, 0.2);
   width: 100%;
@@ -11,14 +10,4 @@
   line-height: 17px;
 }
 
-.form__item:nth-of-type(2) {
-  margin-bottom: 0;
-}
-
-
-@media screen and (min-width: 650px ) {
-  .form__item {
-    margin-bottom: 21px;
-  }
-}
 

@@ -16,6 +16,8 @@ const popupPlace = document.querySelector('.popup_type_place');
 const popupPlaceImg = popupPlace.querySelector('.popup__image');
 const popupPlaceName = popupPlace.querySelector('.popup__caption');
 const places = document.querySelector('.places');
+const popups = document.querySelectorAll('.popup');
+const inputs = Array.from(document.querySelectorAll('.form__input'));
 // this function opens popup
 function openPopups(currentPopup) {
   currentPopup.classList.toggle('popup_opened');
@@ -23,6 +25,7 @@ function openPopups(currentPopup) {
 // this function closes popup
 function closePopup(currentPopup) {
   currentPopup.classList.remove('popup_opened');
+  document.removeEventListener('keydown', closePopupByEsc)
 };
 // this function submits cards form
 function submitCardsForm (evt) {
@@ -31,10 +34,6 @@ function submitCardsForm (evt) {
     name: cardNameInput.value,
     link: cardLinkInput.value
   };
-  // validation check
-  // if (newCard.name && newCard.link) {
-  // places.prepend(createCard(newCard));
-  // }
   places.prepend(createCard(newCard));
   closePopup(popupCards);
   formCards.reset();
@@ -70,24 +69,59 @@ function createCard (element) {
     popupPlaceImg.alt = element.name;
     popupPlaceName.textContent = element.name;
     openPopups(popupPlace);
+    handlePopupClosing();
   });
 
   return cardElement;
-}
+};
+// close popup by pressing esc
+function closePopupByEsc(evt) {
+  if(evt.key === 'Escape'){
+    popups.forEach(popup => {
+      console.log(1)
+      closePopup(popup)
+    });
+  };
+};
+// handle popup closing by overlay click and esc press
+function handlePopupClosing () {
+  popups.forEach(popup => {
+    // если событие 'click', то при клике на попапе и
+    // отпускании клавиши вне его обработчик сработает,
+    // что неудобно при удаленни данных с поля ввода
+    popup.addEventListener('mousedown', function(evt) {
+      if (evt.target === popup) {
+        closePopup(evt.currentTarget.closest('.popup'));
+      };
+    });
+    document.addEventListener('keydown', closePopupByEsc)
+  });
+};
 // open profile popup
 buttonEdit.addEventListener('click', function() {
   nameInput.value = profileName.textContent;
   jobInput.value = profileJob.textContent;
   openPopups(popupProfile);
-})
+  const buttonSaveProfile = popupProfile.querySelector('.form__submit');
+  buttonSaveProfile.classList.remove('form__submit_type_inactive');
+  buttonSaveProfile.removeAttribute('disabled');
+  // to remove errors while opening
+  inputs.forEach(input => {
+    handleInputValidity (input, elementsForValidation)
+  });
+  handlePopupClosing();
+});
 // open cards popup
-buttonAdd.addEventListener('click', () => openPopups(popupCards));
+buttonAdd.addEventListener('click', function() {
+   openPopups(popupCards);
+   handlePopupClosing();
+});
 // close popup
 buttonsClose.forEach(button => {
   button.addEventListener('click', function(evt) {
     closePopup(evt.currentTarget.closest('.popup'));
-  })
-})
+  });
+});
 // submit cards form
 formCards.addEventListener('submit', submitCardsForm);
 // submit profile form
@@ -96,8 +130,4 @@ formProfile.addEventListener('submit', submitProfileForm);
 initialCards.forEach (function (card) {
   places.append(createCard(card));
 });
-
-
-
-
 
