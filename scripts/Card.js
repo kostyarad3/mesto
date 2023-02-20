@@ -1,11 +1,13 @@
-// all elements to open card popup
-import { openPopup, popupPlace, popupPlaceImg, popupPlaceName } from "./index.js";
-
 export class Card {
-  constructor(image, text, templateSelector) {
-    this._image = image;
+  constructor(link, text, templateSelector, handleCardClick) {
+    this._link = link;
     this._text = text;
     this._templateSelector = templateSelector;
+    this._handleCardClick = handleCardClick;
+    this._element = this._getTemplate();
+    this._cardImage = this._element.querySelector('.place__image');
+    this._cardName = this._element.querySelector('.place__name');
+    this._likeButton = this._element.querySelector('.place__like');
   };
 
   _getTemplate() {
@@ -19,28 +21,16 @@ export class Card {
   };
 
   generateCard() {
-    this._element = this._getTemplate();
     this._setEventListeners();
-
-    this._element.querySelector('.place__image').src = this._image;
-    this._element.querySelector('.place__image').alt = this._text;
-    this._element.querySelector('.place__name').textContent = this._text;
+    this._cardImage.src = this._link;
+    this._cardImage.alt = this._text;
+    this._cardName.textContent = this._text;
 
     return this._element;
   };
 
   _handleLikePopup() {
-    this._element
-    .querySelector('.place__like')
-    .classList
-    .toggle('place__like_active');
-  };
-
-  _handleOpenPopup() {
-    popupPlaceImg.src = this._image;
-    popupPlaceImg.alt = this._text;
-    popupPlaceName.textContent = this._text;
-    openPopup(popupPlace);
+    this._likeButton.classList.toggle('place__like_active');
   };
 
   _handleDeleteCard() {
@@ -49,18 +39,16 @@ export class Card {
 
   _setEventListeners() {
 
-    this._element.addEventListener('click', () => {
-      this._handleOpenPopup();
+    this._cardImage.addEventListener('click', () => {
+      this._handleCardClick(this._text, this._link);
     });
 
-    this._element.querySelector('.place__like').addEventListener('click', (evt) => {
+    this._likeButton.addEventListener('click', () => {
       this._handleLikePopup();
-      evt.stopPropagation();
     });
 
-    this._element.querySelector('.place__delete').addEventListener('click', (evt) => {
+    this._element.querySelector('.place__delete').addEventListener('click', () => {
       this._handleDeleteCard();
-      evt.stopPropagation();
     });
 
   };
