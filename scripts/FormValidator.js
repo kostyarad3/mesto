@@ -7,17 +7,17 @@ export class FormValidator {
     this._inputErrorClass = obj.inputErrorClass
     this._errorClass = obj.errorClass
     this._form = form;
+    this._inputs = this._form.querySelectorAll(this._inputSelector);
+    this._buttonSubmit = this._form.querySelector(this._submitButtonSelector)
   };
 
   _handleButtonState() {
     this._isFormValid = this._form.checkValidity();
-    this._buttonSubmit = this._form.querySelector(this._submitButtonSelector)
     this._buttonSubmit.disabled = !this._isFormValid;
     this._buttonSubmit.classList.toggle(this._inactiveButtonClass, !this._isFormValid);
   };
 
   _showError() {
-    console.log(this._input)
     this._input.classList.add(this._inputErrorClass);
     this._errorSpan.textContent = this._input.validationMessage;
     this._errorSpan.classList.add(this._errorClass);
@@ -29,8 +29,9 @@ export class FormValidator {
     this._errorSpan.textContent = '';
 };
 
+
   _handleInputValidity() {
-    this._inputs.forEach(input => {
+      this._inputs.forEach(input => {
       this._input = input;
       this._inputNameAttribute = this._input.getAttribute('name');
       this._errorSpan = document.getElementById(`${this._inputNameAttribute}-error`);
@@ -44,8 +45,17 @@ export class FormValidator {
     });
   };
 
+  resetValidation() {
+    this._handleButtonState();
+    this._inputs.forEach(input => {
+      this._input = input;
+      this._inputNameAttribute = this._input.getAttribute('name');
+      this._errorSpan = document.getElementById(`${this._inputNameAttribute}-error`);
+      this._hideError();
+    });
+  }
+
   _setInputsListeners() {
-    this._inputs = this._form.querySelectorAll(this._inputSelector)
     this._inputs.forEach(input => {
       input.addEventListener('input' , () => {
         this._handleButtonState();
