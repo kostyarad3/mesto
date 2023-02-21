@@ -14,12 +14,10 @@ const elementsForValidation = {
 // all variables
 const buttonEdit = document.querySelector('.button_type_edit');
 const buttonAdd = document.querySelector('.button_type_add');
-const buttonsClose = document.querySelectorAll('.button_type_close');
 const popupProfile = document.querySelector('.popup_type_profile');
 const nameInput = popupProfile.querySelector('#profile-name');
 const jobInput = popupProfile.querySelector('#profile-job');
 const popupCards = document.querySelector('.popup_type_cards');
-const buttonAddCard = popupCards.querySelector('.form__submit')
 const cardNameInput = popupCards.querySelector('#card-name');
 const cardLinkInput = popupCards.querySelector('#card-link');
 const profileName = document.querySelector('.profile__name');
@@ -112,10 +110,9 @@ buttonEdit.addEventListener('click', function() {
 });
 // open cards popup
 buttonAdd.addEventListener('click', function() {
-   openPopup(popupCards);
-   buttonAddCard.classList.add('form__submit_type_inactive');
-   buttonAddCard.setAttribute('disabled', '');
+   formCards.reset();
    formValidators['form-cards'].resetValidation();
+   openPopup(popupCards);
 });
 // submit cards form
 formCards.addEventListener('submit', submitCardsForm);
