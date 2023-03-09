@@ -13,9 +13,14 @@ import {
   buttonAdd,
   nameInput,
   jobInput,
-  places,
   placesSelector,
 } from '../utils/constants.js'
+// this function creates card
+function createCard(cardLink, cardName) {
+  const card = new Card (cardLink, cardName, '#card-template', handleCardClick);
+  const cardElement = card.generateCard();
+  return cardElement;
+}
 // this function enables validation for each form
 const formValidators = {};
 function enableValidation(obj) {
@@ -29,8 +34,8 @@ function enableValidation(obj) {
 };
 enableValidation(elementsForValidation);
 //this function opens card`s popup
+const popupImage = new PopupWithImage ('.popup_type_place')
 function handleCardClick(name, link) {
-  const popupImage = new PopupWithImage ('.popup_type_place')
   popupImage.open(name, link);
   popupImage.setEventListeners();
 }
@@ -38,9 +43,7 @@ function handleCardClick(name, link) {
 const defaultCards = new Section ({
   items: initialCards,
   renderer: (item) => {
-    const card = new Card (item.link, item.name, '#card-template', handleCardClick);
-    const cardElement = card.generateCard();
-    defaultCards.addItem(cardElement);
+    defaultCards.addItem(createCard(item.link, item.name));
   }
 },
   placesSelector
@@ -59,28 +62,29 @@ const popupProfile = new PopupWithForm ({
     popupProfile.close();
   }
 });
+// set listeners on profile popup
+popupProfile.setEventListeners();
 // add new card popup
 const popupCards = new PopupWithForm ({
   popupSelector: '.popup_type_cards',
   submitForm: (cardsInputsValues) => {
-    const newCard = new Card(cardsInputsValues[`card-link`], cardsInputsValues[`card-name`], '#card-template', handleCardClick)
-    const cardElement = newCard.generateCard();
-    places.prepend(cardElement);
+    defaultCards.addItem(createCard(cardsInputsValues[`card-link`], cardsInputsValues[`card-name`]));
     popupCards.close()
   }
 })
+// set listeners on cards popup
+popupCards.setEventListeners()
 // open edit profile popup
 buttonEdit.addEventListener('click', () => {
   const updatedUserInfo = userInfo.getUserInfo();
   nameInput.value = updatedUserInfo.profileName;
   jobInput.value = updatedUserInfo.profileJob;
   popupProfile.open()
-  popupProfile.setEventListeners()
   formValidators['form-profile'].resetValidation();
 })
 // open add card popup
 buttonAdd.addEventListener('click', () => {
-  popupCards.setEventListeners()
   formValidators['form-cards'].resetValidation();
   popupCards.open();
 });
+
