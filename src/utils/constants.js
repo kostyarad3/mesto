@@ -39,5 +39,4 @@ export const buttonEdit = document.querySelector('.button_type_edit');
 export const buttonAdd = document.querySelector('.button_type_add');
 export const nameInput = document.querySelector('#profile-name');
 export const jobInput = document.querySelector('#profile-job');
-export const places = document.querySelector('.places');
 export const placesSelector = '.places'

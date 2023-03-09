@@ -29,28 +29,24 @@ export class FormValidator {
     this._errorSpan.textContent = '';
 };
 
+  _handleInputValidity(input) {
+    this._input = input;
+    this._inputNameAttribute = this._input.getAttribute('name');
+    this._errorSpan = this._form.querySelector(`#${this._inputNameAttribute}-error`);
 
-  _handleInputValidity() {
-      this._inputs.forEach(input => {
-      this._input = input;
-      this._inputNameAttribute = this._input.getAttribute('name');
-      this._errorSpan = document.getElementById(`${this._inputNameAttribute}-error`);
-
-      if (this._input.validity.valid) {
-        this._hideError();
-      } else {
-        this._showError();
-      };
-
-    });
-  };
+    if (this._input.validity.valid) {
+      this._hideError();
+    } else {
+      this._showError();
+    };
+};
 
   resetValidation() {
     this._handleButtonState();
     this._inputs.forEach(input => {
       this._input = input;
       this._inputNameAttribute = this._input.getAttribute('name');
-      this._errorSpan = document.getElementById(`${this._inputNameAttribute}-error`);
+      this._errorSpan = this._form.querySelector(`#${this._inputNameAttribute}-error`);
       this._hideError();
     });
   }
@@ -59,7 +55,7 @@ export class FormValidator {
     this._inputs.forEach(input => {
       input.addEventListener('input' , () => {
         this._handleButtonState();
-        this._handleInputValidity ();
+        this._handleInputValidity (input);
       });
     });
   };
