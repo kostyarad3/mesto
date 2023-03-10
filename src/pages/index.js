@@ -35,20 +35,19 @@ function enableValidation(obj) {
 enableValidation(elementsForValidation);
 //this function opens card`s popup
 const popupImage = new PopupWithImage ('.popup_type_place')
+popupImage.setEventListeners();
 function handleCardClick(name, link) {
   popupImage.open(name, link);
-  popupImage.setEventListeners();
 }
 // render six default cards
 const defaultCards = new Section ({
-  items: initialCards,
   renderer: (item) => {
     defaultCards.addItem(createCard(item.link, item.name));
   }
 },
   placesSelector
 );
-defaultCards.renderItems();
+defaultCards.renderItems(initialCards);
 // profile information
 const userInfo = new UserInfo ({
   profileNameSelector: '.profile__name',
