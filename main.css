@@ -5,10 +5,12 @@
 .header{border-bottom:1px solid rgba(84,84,84,.7);margin:0 auto;max-width:100%;padding:28px 0 32px 27px}@media screen and (min-width:630px){.header{max-width:880px;padding:45px 0 40px;width:90%}}
 .header__logo{display:block;max-width:104px;-o-object-fit:contain;object-fit:contain}@media screen and (min-width:630px){.header__logo{max-width:142px}}
 .profile{align-items:center;display:flex;flex-direction:column;padding:42px 0 36px}@media screen and (min-width:725px){.profile{-moz-column-gap:30px;column-gap:30px;display:grid;grid-template-columns:120px auto 150px;padding:40px 0 51px}}
-.profile__photo{border-radius:50%;display:block}
+.profile__avatar{border-radius:50%;display:block;height:120px;-o-object-fit:cover;object-fit:cover;width:120px}
 .profile__content{color:#fff;margin:26px 0 33px;max-width:189px;position:relative}@media screen and (min-width:725px){.profile__content{margin:0;max-width:312px;width:100%}}
 .profile__name{font-size:27px;font-weight:500;line-height:33px;margin:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}@media screen and (min-width:725px){.profile__name{font-size:42px;line-height:1.14;padding-top:4px}}
 .profile__info{font-size:14px;font-style:normal;font-weight:400;line-height:17px;margin:0;overflow:hidden;padding:7px 0 0;text-align:center;text-overflow:ellipsis;white-space:nowrap}@media screen and (min-width:725px){.profile__info{font-size:18px;line-height:22px;padding-top:9px;text-align:start}}
+.profile__photo{position:relative}
+.profile__avatar-button{background:url(a086f758840ae814ecde.svg) 50% no-repeat;border-radius:50%;height:120px;left:0;opacity:0;position:absolute;top:0;width:120px}.profile__avatar-button:hover{background-color:#000}
 .button{background-color:transparent;border:none;box-sizing:border-box;cursor:pointer;padding:0;transition:.8s}.button:hover{opacity:.8}
 .button_type_add{background:url(54b1426515811a15ebaf.svg) 50% no-repeat;border:2px solid #fff;border-radius:2px;height:50px;width:282px}@media screen and (min-width:650px){.button_type_add{background-size:22px;width:150px}}
 .button_type_close{background:url(b793e07c3f4c19e26c11.svg) 50% no-repeat;background-size:100%;height:20px;position:absolute;right:0;top:-36px;width:20px}@media screen and (min-width:650px){.button_type_close{height:32px;right:-40px;top:-39px;width:32px}}
@@ -16,21 +18,24 @@
 .places{display:grid;gap:20px 17px;grid-template-columns:repeat(auto-fit,282px);justify-content:center;list-style:none;margin:0 auto;padding:0;width:100%}
 .place{background-color:#fff;border-radius:10px;cursor:pointer;max-width:282px;overflow:hidden;position:relative}
 .place__image{display:block;height:282px;-o-object-fit:cover;object-fit:cover;width:100%}
-.place__content{display:flex;justify-content:space-between;padding:25px 20px 25px 21px}
-.place__name{font-size:24px;font-weight:900;line-height:29px;margin:0;max-width:210px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.place__content{display:flex;justify-content:space-between;padding:22px 20px 20px}
+.place__name{align-self:center;font-size:24px;font-weight:900;line-height:29px;margin:0;max-width:210px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .place__like{align-self:center;background:url(87ed371465c7a6a1cd01.svg) 50% no-repeat;height:19px;width:22px}
 .place__like_active{background-image:url(fe17a515669479b1e649.svg)}
 .place__delete{background:url(823b0cf1b0b7e9cb7cad.svg) 50% no-repeat;height:19px;position:absolute;right:20px;top:20px;width:18px}
+.place__like-counter{display:block;font-family:Inter;font-size:13px;font-style:normal;font-weight:400;line-height:16px;margin:0;text-align:center}
 .footer{margin:48px auto 36px;max-width:282px}@media screen and (min-width:650px){.footer{margin:67px auto 60px;max-width:880px;width:90%}}
 .footer__content{color:#545454;font-size:14px;font-weight:400;line-height:17px;margin:0}@media screen and (min-width:650px){.footer__content{font-size:18px;line-height:22px}}
 .popup{align-items:center;background:rgba(0,0,0,.5);display:flex;height:100vh;left:0;opacity:0;position:fixed;top:0;transition:visibility .3s linear,opacity .3s linear;visibility:hidden;width:100%}
 .popup_opened{opacity:1;visibility:visible}
-.popup__container{background-color:#fff;border-radius:10px;box-shadow:0 0 25px rgba(0,0,0,.15);box-sizing:border-box;margin:0 auto;max-width:282px;padding:25px 0;position:relative;width:100%}@media screen and (min-width:650px){.popup__container{max-width:430px;padding:34px 0 37px}}
+.popup__container{background-color:#fff;border-radius:10px;box-shadow:0 0 25px rgba(0,0,0,.15);box-sizing:border-box;margin:0 auto;max-width:282px;padding:25px 22px;position:relative;width:100%}@media screen and (min-width:650px){.popup__container{max-width:430px;padding:34px 36px 37px}}
 .popup_type_place{background:rgba(0,0,0,.9)}
 .popup__content{margin:0 auto;position:relative}
 .popup__image{display:block;max-height:75vh;max-width:75vw;width:100%}
 .popup__caption{color:#fff;font-size:12px;font-weight:400;line-height:15px;margin-top:10px}
-.form{margin:0 auto;max-width:238px}@media screen and (min-width:650px){.form{max-width:358px}}
+.popup__title{font-size:18px;font-weight:900;line-height:22px;margin:0;padding-bottom:24px}@media screen and (min-width:650px){.popup__title{font-size:24px;line-height:29px}}
+.popup__button{background-color:#000;border-radius:2px;color:#fff;font-size:14px;font-weight:400;height:46px;line-height:17px;margin-top:5px;text-align:center;width:100%}@media screen and (min-width:725px){.popup__button{font-size:18px;height:50px;line-height:22px;margin-top:8px}}
+.form{margin:0 auto}
 .form__title{font-size:18px;font-weight:900;line-height:22px;margin:0;padding-bottom:64px}@media screen and (min-width:650px){.form__title{font-size:24px;line-height:29px;padding-bottom:38px}}
 .form__submit{background-color:#000;border-radius:2px;color:#fff;font-size:14px;font-weight:400;height:46px;line-height:17px;margin-top:5px;text-align:center;width:100%}@media screen and (min-width:725px){.form__submit{font-size:18px;height:50px;line-height:22px;margin-top:8px}}
 .form__input{border:none;border-bottom:1px solid rgba(0,0,0,.2);box-sizing:border-box;display:block;font-size:14px;font-weight:400;line-height:17px;padding:9px 0;width:100%}
