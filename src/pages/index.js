@@ -33,12 +33,17 @@ const api = new Api({
   }
 });
 // INITIAL RENDER OF CARDS AND USER INFORMATION
-api.getInitialData().then(items => {
-  const [ profileData, initialCards ] = items;
-  userInfo.setUserInfo(profileData);
-  const updatedInitialCards = initialCards.reverse();
-  defaultCards.renderItems(updatedInitialCards);
-})
+let userId;
+api.getInitialData()
+  .then(items => {
+    const [ profileData, initialCards ] = items;
+    userInfo.setUserInfo(profileData);
+    userId = profileData._id
+    const updatedInitialCards = initialCards.reverse();
+    defaultCards.renderItems(updatedInitialCards);
+  })
+  .catch(err => console.log(err));
+
 // RENDER DEFAUALT CARDS
 const defaultCards = new Section ({
   renderer: (item) => {
@@ -55,11 +60,34 @@ function handleCardClick(name, link) {
 function createCard(item) {
   const card = new Card ({
     item,
-    api,
+    userId,
     templateSelector: '#card-template',
     handleCardClick,
-    popupDeleteCard
-  });
+    popupDeleteCard,
+    giveLikeToCard: (cardId) => {
+      api.giveLike(cardId)
+      .then(res => {
+        card.handleLikesState(res)
+      })
+      .catch(err => console.log(err));
+    },
+    removeLikeFromCard: (cardId) => {
+      api.removeLike(cardId)
+      .then(res => {
+        card.handleLikesState(res)
+      })
+      .catch(err => console.log(err));
+    },
+    deleteCardCb: (cardId) => {
+      api.deleteCard(cardId)
+      .then(() => {
+        card.handleDeleteCard();
+        popupDeleteCard.close()
+      })
+      .catch(err => console.log(err));
+   }
+
+    });
 
   const cardElement = card.generateCard();
   return cardElement;
@@ -74,11 +102,13 @@ const popupProfile = new PopupWithForm ({
     popupProfile.isButtonLoading(true)
     api.editUserInfo(inputsValues[`profile-name`], inputsValues[`profile-job`])
     .then(data => {
-      popupProfile.isButtonLoading(false)
       userInfo.setUserInfo(data)
+      popupProfile.close();
     })
     .catch(err => console.log(err))
-    popupProfile.close();
+    .finally(() => {
+      popupProfile.isButtonLoading(false)
+    })
   }
 });
 popupProfile.setEventListeners();
@@ -95,10 +125,12 @@ const popupAvatar = new PopupWithForm({
     api.editUserAvatar(inputValue[`avatar-link`])
     .then(data =>  {
       userInfo.setUserInfo(data);
-      popupAvatar.isButtonLoading(false);
+      popupAvatar.close();
     })
     .catch(err => console.log(err))
-    popupAvatar.close();
+    .finally(() => {
+      popupAvatar.isButtonLoading(false);
+    })
   }
 })
 popupAvatar.setEventListeners();
@@ -110,10 +142,12 @@ const popupCards = new PopupWithForm ({
     api.addNewCard(inputsValues[`card-name`], inputsValues[`card-link`])
     .then(data => {
       defaultCards.addItem(createCard(data))
-      popupCards.isButtonLoading(false);
+      popupCards.close();
     })
     .catch(err => console.log(err))
-    popupCards.close()
+    .finally(() => {
+      popupCards.isButtonLoading(false);
+    })
   }
 })
 popupCards.setEventListeners()
