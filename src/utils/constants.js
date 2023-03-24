@@ -1,30 +1,3 @@
-// six initial cards
-export const initialCards = [
-  {
-    name: 'Архыз',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/arkhyz.jpg'
-  },
-  {
-    name: 'Челябинская область',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/chelyabinsk-oblast.jpg'
-  },
-  {
-    name: 'Иваново',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/ivanovo.jpg'
-  },
-  {
-    name: 'Камчатка',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kamchatka.jpg'
-  },
-  {
-    name: 'Холмогорский район',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kholmogorsky-rayon.jpg'
-  },
-  {
-    name: 'Байкал',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/baikal.jpg'
-  }
-];
 // object-config for form validation
 export const elementsForValidation = {
   formSelector: '.form',
@@ -34,9 +7,15 @@ export const elementsForValidation = {
   inputErrorClass: 'form__input_type_error',
   errorClass: 'form__input-error_active',
 };
+//this forms require validation
+const editProfileInfoForm = document.querySelector('.form_type_profile')
+const addCardForm = document.querySelector('.form_type_cards')
+const editProfileAvatar = document.querySelector('.form_type_avatar')
+export const formsToValidateArray = [editProfileInfoForm, addCardForm, editProfileAvatar]
 // all variables
 export const buttonEdit = document.querySelector('.button_type_edit');
 export const buttonAdd = document.querySelector('.button_type_add');
 export const nameInput = document.querySelector('#profile-name');
 export const jobInput = document.querySelector('#profile-job');
 export const placesSelector = '.places'
+export const avatarButton = document.querySelector('.profile__avatar-button');
