@@ -4,6 +4,13 @@ export class Api {
     this._headers = config.headers;
   }
 
+  _getResponseData(response) {
+    if (response.ok) {
+      return response.json();
+    }
+    return Promise.reject(`Где-то ошибочка:( : ${response.status}`);
+}
+
   getInitialData() {
     return Promise.all([this.getUserInfo(), this.getInitialCards()])
   }
@@ -12,24 +19,14 @@ export class Api {
     return fetch(`${this._url}/users/me`, {
       method: 'GET',
       headers: this._headers,
-    }).then((response) => {
-      if (response.ok) {
-        return response.json();
-      }
-      return Promise.reject(`Где-то ошибочка:( : ${response.status}`);
-    })
+    }).then((response) => this._getResponseData(response))
   }
 
   getInitialCards() {
     return fetch(`${this._url}/cards`, {
       method: 'GET',
       headers: this._headers,
-    }).then((response) => {
-      if (response.ok) {
-        return response.json();
-      }
-      return Promise.reject(`Где-то ошибочка:( : ${response.status}`);
-    })
+    }).then((response) => this._getResponseData(response))
   }
 
   editUserInfo(name, about) {
@@ -40,12 +37,7 @@ export class Api {
       name: name,
       about: about,
     })
-   }).then((response) => {
-      if (response.ok) {
-        return response.json();
-      }
-      return Promise.reject(`Где-то ошибочка:( : ${response.status}`);
-    })
+    }).then((response) => this._getResponseData(response))
   }
 
   addNewCard(cardName, cardLink) {
@@ -56,48 +48,28 @@ export class Api {
       name: cardName,
       link: cardLink,
     })
-   }).then((response) => {
-      if (response.ok) {
-        return response.json();
-      }
-      return Promise.reject(`Где-то ошибочка:( : ${response.status}`);
-    })
+    }).then((response) => this._getResponseData(response))
   }
 
   deleteCard(cardId) {
     return fetch(`${this._url}/cards/${cardId}`, {
       method: 'DELETE',
       headers: this._headers,
-   }).then((response) => {
-      if (response.ok) {
-        return response.json();
-      }
-      return Promise.reject(`Где-то ошибочка:( : ${response.status}`);
-    })
+    }).then((response) => this._getResponseData(response))
   }
 
   giveLike(cardId) {
     return fetch(`${this._url}/cards/${cardId}/likes`, {
       method: 'PUT',
       headers: this._headers,
-    }).then((response) => {
-      if (response.ok) {
-        return response.json();
-      }
-      return Promise.reject(`Где-то ошибочка:( : ${response.status}`);
-    })
+      }).then((response) => this._getResponseData(response))
   }
 
   removeLike(cardId) {
     return fetch(`${this._url}/cards/${cardId}/likes`, {
       method: 'DELETE',
       headers: this._headers,
-    }).then((response) => {
-      if (response.ok) {
-        return response.json();
-      }
-      return Promise.reject(`Где-то ошибочка:( : ${response.status}`);
-    })
+      }).then((response) => this._getResponseData(response))
   }
 
   editUserAvatar(value) {
@@ -107,12 +79,7 @@ export class Api {
       body: JSON.stringify({
         avatar: value,
     })
-   }).then((response) => {
-      if (response.ok) {
-        return response.json();
-      }
-      return Promise.reject(`Где-то ошибочка:( : ${response.status}`);
-    })
+    }).then((response) => this._getResponseData(response))
   }
 
 
